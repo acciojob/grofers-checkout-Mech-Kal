@@ -3,25 +3,28 @@ getSumBtn.append("Get Total Price");
 document.body.appendChild(getSumBtn);
 
 const getSum = () => {
-  // Select all price cells
   const prices = document.querySelectorAll(".price");
-
-  // Convert NodeList to array and sum up values
   let total = 0;
+
   prices.forEach((cell) => {
-    total += Number(cell.textContent);
+    // Extract number safely (in case of editable text)
+    const val = parseFloat(cell.textContent.trim()) || 0;
+    total += val;
   });
 
-  // Create a new table row for the total
+  // Remove previous total row if already exists
+  const oldAns = document.getElementById("ans");
+  if (oldAns) oldAns.remove();
+
+  // Create a new total row
   const table = document.querySelector("table");
   const totalRow = document.createElement("tr");
 
-  // Create one cell that spans both columns
   const totalCell = document.createElement("td");
+  totalCell.id = "ans"; // test expects this ID
   totalCell.colSpan = 2;
-  totalCell.textContent = `Total Price: Rs ${total}`;
+  totalCell.textContent = total;
 
-  // Append cell to row and row to table
   totalRow.appendChild(totalCell);
   table.appendChild(totalRow);
 };
